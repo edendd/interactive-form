@@ -57,3 +57,32 @@ design.addEventListener("change", (e) => {
 });
 
 //*****Register for Activities******/
+// create an event listener for the Activities section
+document.getElementById("activities").addEventListener("change", (e) => {
+    const regActivities = document.querySelectorAll("input[type='checkbox']");
+    const totalCost = document.getElementById("activities-cost");
+    let cost = 0;
+  
+    // update the cost when the register activity is checked or unchecked
+    regActivities.forEach((activity) => {
+      if (activity.checked === true) {
+        cost += parseInt(activity.dataset.cost);
+      }
+    });
+  
+    totalCost.textContent = `Total: $${cost}`;
+  
+  });
+
+//*****Payment section info******/
+let payment = document.querySelector('#payment')
+let creditCard = document.querySelector('#credit-card')
+let payPal = document.querySelector('#paypal')
+let bitcoin = document.querySelector('#bitcoin')
+
+//Use the "paypal" and "bitcoin" variables above to hide these elements initially
+
+creditCard.style.display = 'none'
+payPal.style.display = 'none'
+
+let payment = document.querySelector("")
