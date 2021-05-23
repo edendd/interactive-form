@@ -1,11 +1,14 @@
-//selecting the varables
+//Selecting the varables
+
 let userInputName = document.querySelector("#name").focus();
 let otherJobRole = document.querySelector("#other-job-role");
 let jobRole = document.querySelector("#title");
-// don't display other text filed
+
+// Don't display other text filed
+
 otherJobRole.style.display = "none";
 
-//Create an event listener and create a conditional statment to show the text field if "other" is selected.
+// Create an event listener and create a conditional statment to show the text field if "other" is selected.
 
 jobRole.addEventListener("change", (e) => {
   if (e.target.value == "other") {
@@ -42,7 +45,7 @@ design.addEventListener("change", (e) => {
       }
     }
   } else if (e.target.value === "heart js") {
-    hiddencolorList[4].selected = true; // this targets the 'heart js' t shirt and makes sure it's selected
+    hiddencolorList[4].selected = true;
     for (let i = 0; i < hiddencolorList.length; i++) {
       if (hiddencolorList[i].getAttribute("data-theme") === "heart js") {
         hiddencolorList[i].style.display = "inherit";
@@ -56,11 +59,11 @@ design.addEventListener("change", (e) => {
 });
 
 //*****Register for Activities******/
-// create an event listener for the Activities section
-let activites = document.getElementById("activities");
-let cost = 0;
+// create an event listener for the activities section
+  let activites = document.querySelector("#activities");
+  let cost = 0;
 activites.addEventListener("change", (e) => {
-  let regActivities = document.querySelectorAll("input[type='checkbox']");
+  let regActivities = document.querySelectorAll("input[type ='checkbox']");
   let totalCost = document.querySelector("#activities-cost");
 
   // update the cost when the register activity is checked or unchecked
@@ -74,6 +77,9 @@ activites.addEventListener("change", (e) => {
 });
 
 //*****Payment section info******/
+
+//selecting varibles for the payment
+
 let payment = document.querySelector("#payment");
 let creditCard = document.querySelector("#credit-card");
 let payPal = document.querySelector("#paypal");
@@ -108,7 +114,7 @@ payment.addEventListener("change", (e) => {
 //***** Form Validation:******/
 // add validations
 
-//Variables
+// selecting the variables for validation
 
 let name = document.getElementById("name");
 let email = document.getElementById("email");
@@ -117,14 +123,14 @@ let zipCode = document.getElementById("zip");
 let cvv = document.getElementById("cvv");
 let form = document.querySelector("form");
 
-//Function if the regex is accepted
+// regex is accepted
 function isValid(element) {
   element.parentElement.classList.add("valid");
   element.parentElement.classList.remove("not-valid");
   element.parentElement.lastElementChild.style.display = "none";
 }
 
-//Function if regex is not accepted
+// regex is not accepted
 function isNotValid(element) {
   element.parentElement.classList.remove("valid");
   element.parentElement.classList.add("not-valid");
@@ -132,8 +138,9 @@ function isNotValid(element) {
 }
 
 //***Helper Functions***/
-//Name
-function isNameValid() {
+
+// Name validation
+function NameValid() {
   let nameValue = name.value;
   let nameTest = /^[A-Za-z]{1}/.test(nameValue);
   if (nameTest) {
@@ -144,8 +151,8 @@ function isNameValid() {
   return nameTest;
 }
 
-//Email
-function isEmailValid() {
+//Email validation
+function EmailValid() {
   let emailInput = email.value;
   let emailTest = /^[^@]+@[^@.]+\.[a-z]+$/.test(emailInput);
   if (emailTest) {
@@ -157,7 +164,7 @@ function isEmailValid() {
 }
 
 //Register for an at least 1 activity
-function isRegValid() {
+function RegValid() {
   if (cost !== 0) {
     activites.classList.add("valid");
     activites.classList.remove("not-valid");
@@ -174,11 +181,9 @@ function isRegValid() {
     }
   }
 }
-// console.log(isRegValid());
 
 //Credit Card validation
-
-function isCreditValid() {
+function CreditValid() {
   let cc = cardNumber.value;
   let ccTest = /^\d{13,16}$/.test(cc);
   if (ccTest) {
@@ -189,8 +194,8 @@ function isCreditValid() {
   return ccTest;
 }
 
-//Zip Code validate
-function isZipValid() {
+//ZipCode validate
+function ZipValid() {
   let zipInput = zipCode.value;
   let zipTest = /^[0-9]{5}$/.test(zipInput);
   if (zipTest) {
@@ -202,7 +207,7 @@ function isZipValid() {
 }
 
 //CVV validate
-function isCvvValid() {
+function CvvValid() {
   let cvvInput = cvv.value;
   let cvvTest = /^[0-9]{3}$/.test(cvvInput);
   if (cvvTest) {
@@ -213,25 +218,25 @@ function isCvvValid() {
   return cvvTest;
 }
 
-//Add an event listener to check to only submit if fields are valid
+// //Add an event listener to check to only submit if fields are valid
 form.addEventListener("submit", (e) => {
-  if (!isNameValid()) {
+  if (!NameValid()) {
     e.preventDefault();
   }
-  if (!isEmailValid()) {
+  if (!EmailValid()) {
     e.preventDefault();
   }
-  if (!isRegValid()) {
+  if (!RegValid()) {
     e.preventDefault();
   }
   if (selectPayment.selected) {
-    if (!isCreditValid()) {
+    if (!CreditValid()) {
       e.preventDefault();
     }
-    if (!isZipValid()) {
+    if (!ZipValid()) {
       e.preventDefault();
     }
-    if (!isCvvValid()) {
+    if (!CvvValid()) {
       e.preventDefault();
     } else {
       selectPayment.selected = false;
@@ -252,3 +257,6 @@ for (let i = 0; i < Checkactivities.length; i++) {
     Checkactivities[i].parentElement.classList.remove("focus");
   });
 }
+
+// sources from the exercise form vaidation
+// regex from regular expression videos
