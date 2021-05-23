@@ -1,16 +1,15 @@
 //selecting the varables
 let userInputName = document.querySelector("#name").focus();
 let otherJobRole = document.querySelector("#other-job-role");
-
+let jobRole = document.querySelector("#title");
 // don't display other text filed
-
 otherJobRole.style.display = "none";
 
 //Create an event listener and create a conditional statment to show the text field if "other" is selected.
 
-otherJobRole.addEventListener("change", (e) => {
-  if (e.target.value === "other") {
-    otherJobRole.style.display = "block";
+jobRole.addEventListener("change", (e) => {
+  if (e.target.value == "other") {
+    otherJobRole.style.display = "inherit";
   } else {
     otherJobRole.style.display = "none";
   }
@@ -30,11 +29,11 @@ colorList.disabled = true;
 design.addEventListener("change", (e) => {
   //disable the previously enabled tshirt color element
   colorList.disabled = false;
-  //loop over the option children of the color children element
+
   if (e.target.value === "js puns") {
     //this targets the 'js puns' tshirt and makes sure it's selected
     hiddencolorList[1].selected = true;
-
+    //loop over the option color children element
     for (let i = 0; i < hiddencolorList.length; i++) {
       if (hiddencolorList[i].getAttribute("data-theme") === "js puns") {
         hiddencolorList[i].style.display = "inherit";
@@ -58,10 +57,11 @@ design.addEventListener("change", (e) => {
 
 //*****Register for Activities******/
 // create an event listener for the Activities section
-document.getElementById("activities").addEventListener("change", (e) => {
+let activites = document.getElementById("activities");
+let cost = 0;
+activites.addEventListener("change", (e) => {
   let regActivities = document.querySelectorAll("input[type='checkbox']");
-  let totalCost = document.getElementById("activities-cost");
-  let cost = 0;
+  let totalCost = document.querySelector("#activities-cost");
 
   // update the cost when the register activity is checked or unchecked
   regActivities.forEach((activity) => {
@@ -78,6 +78,10 @@ let payment = document.querySelector("#payment");
 let creditCard = document.querySelector("#credit-card");
 let payPal = document.querySelector("#paypal");
 let bitcoin = document.querySelector("#bitcoin");
+
+//target payment second child element and give it the "selected" property
+const selectPayment = payment.firstElementChild.nextElementSibling;
+selectPayment.selected = true;
 
 //Use the "paypal" and "bitcoin" variables above to hide these elements initially
 
@@ -102,99 +106,149 @@ payment.addEventListener("change", (e) => {
 });
 
 //***** Form Validation:******/
-// form selection
-let userName = document.querySelector("#name");
-let emailAddress = document.querySelector("#email");
-regActivities = document.querySelector("#activities");
-let cardNum = document.querySelector("#cc-num");
-let zipCode = document.querySelector("#zip");
-let cvvCode = document.querySelector("#cvv");
+// add validations
+
+//Variables
+
+let name = document.getElementById("name");
+let email = document.getElementById("email");
+let cardNumber = document.getElementById("cc-num");
+let zipCode = document.getElementById("zip");
+let cvv = document.getElementById("cvv");
 let form = document.querySelector("form");
 
-// name can not be blank
-function validateName(e) {
-  if (userName === "") {
-    console.log("Name invalid");
-    e.preventDefault();
-    return false;
-  } else {
-    return true;
-  }
-}
-// If invalid email is written
-function validateEmail(e) {
-  const regex = /^\S+@\S+\.\S+$/;
-  if (!regex.test(emailValue)) {
-    console.log("Email invalid");
-    e.preventDefault();
-    return false;
-  } else {
-    return true;
-  }
+//Function if the regex is accepted
+function isValid(element) {
+  element.parentElement.classList.add("valid");
+  element.parentElement.classList.remove("not-valid");
+  element.parentElement.lastElementChild.style.display = "none";
 }
 
-// one activity must be selected
-function validateActivities(e) {
-  e.preventDefault();
-  if (totalCost !== 0) {
-    regActivities.classList.add("valid");
-    regActivities.classList.remove("not-valid");
-    regActivities.lastElementChild.style.display = "none";
+//Function if regex is not accepted
+function isNotValid(element) {
+  element.parentElement.classList.remove("valid");
+  element.parentElement.classList.add("not-valid");
+  element.parentElement.lastElementChild.style.display = "block";
+}
+
+//***Helper Functions***/
+//Name
+function isNameValid() {
+  let nameValue = name.value;
+  let nameTest = /^[A-Za-z]{1}/.test(nameValue);
+  if (nameTest) {
+    isValid(name);
+  } else {
+    isNotValid(name);
+  }
+  return nameTest;
+}
+
+//Email
+function isEmailValid() {
+  let emailInput = email.value;
+  let emailTest = /^[^@]+@[^@.]+\.[a-z]+$/.test(emailInput);
+  if (emailTest) {
+    isValid(email);
+  } else {
+    isNotValid(email);
+  }
+  return emailTest;
+}
+
+//Register for an at least 1 activity
+function isRegValid() {
+  if (cost !== 0) {
+    activites.classList.add("valid");
+    activites.classList.remove("not-valid");
+    activites.lastElementChild.style.display = "none";
     {
       return true;
     }
   } else {
-    regActivities.classList.add("not-valid");
-    regActivities.classList.remove("valid");
-    regActivities.lastElementChild.style.display = "block";
+    activites.classList.add("not-valid");
+    activites.classList.remove("valid");
+    activites.lastElementChild.style.display = "block";
     {
-      return totalCost !== 0;
+      return cost !== 0;
     }
   }
 }
-// card number must be a number between 13 and 16 digits
-function validateCardNum(e) {
-  if (isNaN(cvvCode) || cvvCode.length < 13 || cvvCode.length > 16) {
-    console.log("Card Number invalid");
-    e.preventDefault();
-    return false;
+// console.log(isRegValid());
+
+//Credit Card validation
+
+function isCreditValid() {
+  let cc = cardNumber.value;
+  let ccTest = /^\d{13,16}$/.test(cc);
+  if (ccTest) {
+    isValid(cardNumber);
   } else {
-    return true;
+    isNotValid(cardNumber);
   }
+  return ccTest;
 }
 
-// zip code must be a five digit number
-function validateZip(e) {
-  if (isNaN(zipCode) || zipCode.length !== 5) {
-    console.log("Zip Code invalid");
-    e.preventDefault();
-    return false;
+//Zip Code validate
+function isZipValid() {
+  let zipInput = zipCode.value;
+  let zipTest = /^[0-9]{5}$/.test(zipInput);
+  if (zipTest) {
+    isValid(zipCode);
   } else {
-    return true;
+    isNotValid(zipCode);
   }
-}
-//CVV
-function validateCVV(e) {
-  if (isNaN(cvvCode) || cvvCode.length !== 3) {
-    console.log("CVV invalid");
-    e.preventDefault();
-    return false;
-  } else {
-    return true;
-  }
+  return zipTest;
 }
 
-// create an event listener for the Register button
-document.querySelector("form").addEventListener("submit", (e) => {
-  // when there are validation errors the form should be prevented from submitting
-  // e.preventDefault();
-  validateName(e);
-  validateEmail(e);
-  validateActivities(e);
-  // if credit card is the selected method of payment
-  if (document.querySelector("option[value='credit-card']").selected === true) {
-    validateCardNum(e);
-    validateZip(e);
-    validateCVV(e);
+//CVV validate
+function isCvvValid() {
+  let cvvInput = cvv.value;
+  let cvvTest = /^[0-9]{3}$/.test(cvvInput);
+  if (cvvTest) {
+    isValid(cvv);
+  } else {
+    isNotValid(cvv);
+  }
+  return cvvTest;
+}
+
+//Add an event listener to check to only submit if fields are valid
+form.addEventListener("submit", (e) => {
+  if (!isNameValid()) {
+    e.preventDefault();
+  }
+  if (!isEmailValid()) {
+    e.preventDefault();
+  }
+  if (!isRegValid()) {
+    e.preventDefault();
+  }
+  if (selectPayment.selected) {
+    if (!isCreditValid()) {
+      e.preventDefault();
+    }
+    if (!isZipValid()) {
+      e.preventDefault();
+    }
+    if (!isCvvValid()) {
+      e.preventDefault();
+    } else {
+      selectPayment.selected = false;
+    }
   }
 });
+
+//*************Accessibility************* */
+//Create a variable to reference the activities’ <input type=”checkbox”> elements
+let Checkactivities = document.querySelectorAll("input[type=checkbox]");
+console.log(Checkactivities);
+//Use the variable that was just created to loop over the activities’ checkboxes
+for (let i = 0; i < Checkactivities.length; i++) {
+  Checkactivities[i].addEventListener("focus", () => {
+    Checkactivities[i].parentElement.classList.add("focus");
+  });
+  Checkactivities[i].addEventListener("blur", () => {
+    Checkactivities[i].parentElement.classList.remove("focus");
+  });
+}
