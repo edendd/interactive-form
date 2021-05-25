@@ -59,21 +59,23 @@ design.addEventListener("change", (e) => {
 });
 
 //*****Register for Activities******/
-// create an event listener for the activities section
-  let activites = document.querySelector("#activities");
-  let cost = 0;
-activites.addEventListener("change", (e) => {
-  let regActivities = document.querySelectorAll("input[type ='checkbox']");
-  let totalCost = document.querySelector("#activities-cost");
+//Variables
+let regForActivities = document.getElementById('activities');
+let cost = document.getElementById('activities-cost');
+let totalCost = 0;
 
-  // update the cost when the register activity is checked or unchecked
-  regActivities.forEach((activity) => {
-    if (activity.checked === true) {
-      cost += parseInt(activity.dataset.cost);
+//Created and event to listener for the selection of activities
+regForActivities.addEventListener('change', e => {
+  
+    let eventCost = parseInt(e.target.getAttribute('data-cost'))
+    //if a box is checked the cost of the event will be added to the total cost if it's unchecked it won't
+    if (e.target.checked){
+        totalCost += eventCost;    
+    } else {
+       totalCost -= eventCost; 
     }
-  });
-
-  totalCost.textContent = `Total: $${cost}`;
+    //used a template literal and interpolation to update the HTML with the total cost.
+    cost.textContent= `Total: $${totalCost}`
 });
 
 //*****Payment section info******/
@@ -166,20 +168,20 @@ function EmailValid() {
 //Register for an at least 1 activity
 function RegValid() {
   if (cost !== 0) {
-    activites.classList.add("valid");
-    activites.classList.remove("not-valid");
-    activites.lastElementChild.style.display = "none";
+    regForActivities .classList.add("valid");
+    regForActivities .classList.remove("not-valid");
+    regForActivities .lastElementChild.style.display = " ";
     {
-      return true;
+      return false;
     }
   } else {
-    activites.classList.add("not-valid");
-    activites.classList.remove("valid");
-    activites.lastElementChild.style.display = "block";
+    regForActivities .classList.add("not-valid");
+    regForActivities .classList.remove("valid");
+    regForActivities .lastElementChild.style.display = "block";
     {
-      return cost !== 0;
+      return cost !== 0
     }
-  }
+   }
 }
 
 //Credit Card validation
