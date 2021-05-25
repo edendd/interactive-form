@@ -167,19 +167,19 @@ function EmailValid() {
 
 //Register for an at least 1 activity
 function RegValid() {
-  if (cost !== 0) {
-    regForActivities .classList.add("valid");
-    regForActivities .classList.remove("not-valid");
-    regForActivities .lastElementChild.style.display = " ";
+  if (totalCost !== 0) {
+    regForActivities.classList.add("valid");
+    regForActivities.classList.remove("not-valid");
+    regForActivities.lastElementChild.style.display = "none";
     {
-      return false;
+      return true;
     }
   } else {
-    regForActivities .classList.add("not-valid");
-    regForActivities .classList.remove("valid");
-    regForActivities .lastElementChild.style.display = "block";
+    regForActivities.classList.add("not-valid");
+    regForActivities.classList.remove("valid");
+    regForActivities.lastElementChild.style.display = "block";
     {
-      return cost !== 0
+      return totalCost !== 0
     }
    }
 }
@@ -248,7 +248,7 @@ form.addEventListener("submit", (e) => {
 
 //*************Accessibility************* */
 //Create a variable to reference the activities’ <input type=”checkbox”> elements
-let Checkactivities = document.querySelectorAll("input[type=checkbox]");
+let Checkactivities = document.querySelectorAll("input[type='checkbox']");
 console.log(Checkactivities);
 //Use the variable that was just created to loop over the activities’ checkboxes
 for (let i = 0; i < Checkactivities.length; i++) {
