@@ -68,7 +68,7 @@ let totalCost = 0;
 regForActivities.addEventListener('change', e => {
   
     let eventCost = parseInt(e.target.getAttribute('data-cost'))
-    //if a box is checked the cost of the event will be added to the total cost if it's unchecked it won't
+    //if a box is checked the cost of the event will be added to the total cost if it's unchecked it
     if (e.target.checked){
         totalCost += eventCost;    
     } else {
@@ -168,16 +168,16 @@ function EmailValid() {
 //Register for an at least 1 activity
 function RegValid() {
   if (totalCost !== 0) {
-    regForActivities.classList.add("valid");
-    regForActivities.classList.remove("not-valid");
-    regForActivities.lastElementChild.style.display = "none";
+    regForActivities .classList.add("valid");
+    regForActivities .classList.remove("not-valid");
+    regForActivities .lastElementChild.style.display = "none";
     {
       return true;
     }
   } else {
-    regForActivities.classList.add("not-valid");
-    regForActivities.classList.remove("valid");
-    regForActivities.lastElementChild.style.display = "block";
+    regForActivities .classList.add("not-valid");
+    regForActivities .classList.remove("valid");
+    regForActivities .lastElementChild.style.display = "block";
     {
       return totalCost !== 0
     }
@@ -240,15 +240,13 @@ form.addEventListener("submit", (e) => {
     }
     if (!CvvValid()) {
       e.preventDefault();
-    } else {
-      selectPayment.selected = false;
-    }
+    } 
   }
 });
 
 //*************Accessibility************* */
 //Create a variable to reference the activities’ <input type=”checkbox”> elements
-let Checkactivities = document.querySelectorAll("input[type='checkbox']");
+let Checkactivities = document.querySelectorAll("input[type=checkbox]");
 console.log(Checkactivities);
 //Use the variable that was just created to loop over the activities’ checkboxes
 for (let i = 0; i < Checkactivities.length; i++) {
